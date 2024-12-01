@@ -1,0 +1,154 @@
+import pyxel, time, random
+import world, inimigo
+from world import world, worldItem, desenhar_mundo
+
+tamanho_tile = 8
+banco_sprite = 0
+tamanho_hud = 16
+
+class jogo:
+    def __init__(self):
+        pyxel.init(192,144, title='Dungeon do C3')
+        pyxel.load('recursos.pyxres')
+        pyxel.playm(0, loop=True)
+
+        self.jogador_x = 64
+        self.jogador_y = 64
+        self.jogador_vida = 3
+        self.jogador_score = 0
+
+        self.velocidade_movimento = 2
+        self.velocidade_ataque = 6
+        self.count = 0
+
+        self.inimigo1 = inimigo.inimigo(3, 1)
+        self.inimigo2 = inimigo.inimigo(3,1)
+        
+        self.posicoes_inimigos = [(self.inimigo1.x, self.inimigo1.y), (self.inimigo2.x, self.inimigo2.x)]
+
+        self.lado_visao = 'r'
+        self.world = world(pyxel.tilemap(0))
+        self.autores = ['G.V.A.A','F.C.M']
+
+        pyxel.run(self.update, self.draw)
+
+    def update(self):
+        if pyxel.btn(pyxel.KEY_UP):
+            self.lado_visao = 'u'
+            if self.colisao(self.jogador_x,self.jogador_y,self.velocidade_movimento,self.lado_visao):
+                self.jogador_y -= self.velocidade_movimento
+                print(f"{self.lado_visao}, {(self.jogador_x,self.jogador_y)}")
+
+        if pyxel.btn(pyxel.KEY_DOWN):
+            self.lado_visao = 'd'
+            if self.colisao(self.jogador_x,self.jogador_y,self.velocidade_movimento,self.lado_visao):
+                self.jogador_y += self.velocidade_movimento
+                print(f"{self.lado_visao}, {(self.jogador_x,self.jogador_y)}")
+
+        if pyxel.btn(pyxel.KEY_LEFT):
+            self.lado_visao = 'l'
+            if self.colisao(self.jogador_x,self.jogador_y,self.velocidade_movimento,self.lado_visao):
+                self.jogador_x -= self.velocidade_movimento
+                print(f"{self.lado_visao}, {(self.jogador_x,self.jogador_y)}")
+      
+        if pyxel.btn(pyxel.KEY_RIGHT):
+            self.lado_visao = 'r'
+            if self.colisao(self.jogador_x,self.jogador_y,self.velocidade_movimento,self.lado_visao):
+                self.jogador_x += self.velocidade_movimento
+                print(f"{self.lado_visao}, {(self.jogador_x,self.jogador_y)}")
+
+        if pyxel.btn(pyxel.KEY_SPACE):
+            self.count += 1
+            if self.count == self.velocidade_ataque:
+                print('pew pew')
+                self.count = 0
+
+        if pyxel.btnp(pyxel.KEY_J):
+            self.jogador_vida -= 1 
+            self.jogador_score -= 1
+
+        if pyxel.btnp(pyxel.KEY_K):
+            self.jogador_vida += 1
+            self.jogador_score += 1
+
+        if pyxel.btn(pyxel.KEY_Q):
+            print(self.world.mapa_mundo)
+            pyxel.quit()
+
+        if self.colisao(self.inimigo2.x, self.inimigo2.y, self.inimigo2.velocidade, self.inimigo2.lado) and ((self.inimigo2.x,self.inimigo2.y) != ((self.inimigo1.x, self.inimigo1.y))):
+            self.inimigo2.caçar(self.jogador_x, self.jogador_y)
+        else:
+            self.inimigo2.resetar()
+
+        if self.colisao(self.inimigo1.x, self.inimigo1.y, self.inimigo1.velocidade, self.inimigo1.lado):
+            self.inimigo1.caçar(self.jogador_x, self.jogador_y)
+        else:
+            self.inimigo1.resetar()
+            
+        
+
+    def draw(self):
+        pyxel.cls(1) # cor do fundo
+
+        for y in range(self.world.altura + tamanho_hud): # desenha o mundo
+            for x in range(self.world.largura):
+                world_item = self.world.mapa_mundo[y][x]
+                desenhar_mundo(pyxel,x,y, world_item)
+
+        pyxel.rect(6,2,30,12,0)
+        pyxel.rect(7,3,28,10,7)
+        for vida in range(self.jogador_vida):
+            
+            pyxel.blt(8 + (8 * vida) + (vida * 1),4,0,24,0,8,8,4) # desenha as vidas
+        
+        pyxel.rect(39,2,24,12,0)
+        pyxel.rect(40,3,22,10,7)
+        pyxel.blt(40,4,0,32,0,8,8,4) # desenha a moedas da hud
+        pyxel.text(50,6, f'{self.jogador_score}x', 0)
+
+        pyxel.blt(self.inimigo1.x,self.inimigo1.y,0,24,8,8,8,4) # desenha inimigos
+        pyxel.blt(self.inimigo2.x, self.inimigo2.y,0,24,8,8,8,4)
+        pyxel.blt(self.jogador_x,self.jogador_y,0,8,8,8,8,4) #desenha o jogador
+
+        pyxel.rect(127,4,63,9,0)
+        pyxel.rect(128,5, 61, 7, 7)
+        pyxel.text(129, 6, f'{self.autores[1]} e {self.autores[0]}', random.randint(0,15))
+        
+
+    def atirar(self, lado):
+        print(f"atirar {lado}")
+
+    def colisao(self,pos_x,pos_y,velocidade,lado):
+        if lado == 'u':
+            x = pos_x
+            y = pos_y - velocidade
+        if lado == 'd':
+            x = pos_x
+            y = pos_y + velocidade
+        if lado == 'l':
+            x = pos_x - velocidade
+            y = pos_y
+        if lado == 'r':
+            x = pos_x + velocidade
+            y = pos_y
+
+        constante_misteriosa = 6 # PERGUNTAR PARA O CLEO OU BICHO
+        tamanho_tile = 8
+
+        posicoes = [
+            [x // tamanho_tile, y // tamanho_tile],
+            [(x + 6) // tamanho_tile, y // tamanho_tile],
+            [x // tamanho_tile, (y + 6) // tamanho_tile],
+            [(x + 6) // tamanho_tile, (y + 6) // tamanho_tile],
+        ] #possui as 4 vertices do sprite
+
+        try:
+            for posicao in posicoes:
+                if self.world.mapa_mundo[posicao[1]][posicao[0]] not in worldItem.andaveis:
+                    return False
+            return True
+        except Exception as e:
+            print(e) 
+            return False
+
+jogo()
