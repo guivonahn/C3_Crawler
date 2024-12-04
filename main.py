@@ -17,6 +17,11 @@ class jogo:
         self.jogador_vida = 3
         self.jogador_score = 0
 
+
+        self.jogador_sprites = [[8,8], [0,16], [8,16]]
+        self.jogador_sprite = self.jogador_sprites[0]
+
+
         self.velocidade_movimento = 2
         self.velocidade_ataque = 6
         self.count = 0
@@ -34,24 +39,28 @@ class jogo:
 
     def update(self):
         if pyxel.btn(pyxel.KEY_UP):
+            self.jogador_sprite = self.jogador_sprites[2]
             self.lado_visao = 'u'
             if self.colisao(self.jogador_x,self.jogador_y,self.velocidade_movimento,self.lado_visao):
                 self.jogador_y -= self.velocidade_movimento
                 print(f"{self.lado_visao}, {(self.jogador_x,self.jogador_y)}")
 
         if pyxel.btn(pyxel.KEY_DOWN):
+            self.jogador_sprite = self.jogador_sprites[0]
             self.lado_visao = 'd'
             if self.colisao(self.jogador_x,self.jogador_y,self.velocidade_movimento,self.lado_visao):
                 self.jogador_y += self.velocidade_movimento
                 print(f"{self.lado_visao}, {(self.jogador_x,self.jogador_y)}")
 
         if pyxel.btn(pyxel.KEY_LEFT):
+            self.jogador_sprite = self.jogador_sprites[1]
             self.lado_visao = 'l'
             if self.colisao(self.jogador_x,self.jogador_y,self.velocidade_movimento,self.lado_visao):
                 self.jogador_x -= self.velocidade_movimento
                 print(f"{self.lado_visao}, {(self.jogador_x,self.jogador_y)}")
       
         if pyxel.btn(pyxel.KEY_RIGHT):
+            self.jogador_sprite = self.jogador_sprites[1]
             self.lado_visao = 'r'
             if self.colisao(self.jogador_x,self.jogador_y,self.velocidade_movimento,self.lado_visao):
                 self.jogador_x += self.velocidade_movimento
@@ -72,7 +81,6 @@ class jogo:
             self.jogador_score += 1
 
         if pyxel.btn(pyxel.KEY_Q):
-            print(self.world.mapa_mundo)
             pyxel.quit()
 
         if self.colisao(self.inimigo2.x, self.inimigo2.y, self.inimigo2.velocidade, self.inimigo2.lado) and ((self.inimigo2.x,self.inimigo2.y) != ((self.inimigo1.x, self.inimigo1.y))):
@@ -108,7 +116,8 @@ class jogo:
 
         pyxel.blt(self.inimigo1.x,self.inimigo1.y,0,24,8,8,8,4) # desenha inimigos
         pyxel.blt(self.inimigo2.x, self.inimigo2.y,0,24,8,8,8,4)
-        pyxel.blt(self.jogador_x,self.jogador_y,0,8,8,8,8,4) #desenha o jogador
+
+        pyxel.blt(self.jogador_x,self.jogador_y,0,self.jogador_sprite[0],self.jogador_sprite[1],8,8,4) #desenha o jogador
 
         pyxel.rect(127,4,63,9,0)
         pyxel.rect(128,5, 61, 7, 7)
