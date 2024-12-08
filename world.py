@@ -12,9 +12,15 @@ class worldItem:
     chao = (0,1)
     portal = (2,0)
     hud = (2,1)
+    janela = (6,1)
+    chao2 = (6,2)
+    tapete0 = (2,2)
+    tapete1 = (3,2)
+    tapete2 = (2,3)
+    tapete3 = (3,3)
 
-    andaveis = [chao, portal]
-    solidos = [parede1,parede2, hud]
+    andaveis = [chao, chao2, portal, tapete0, tapete1, tapete2, tapete3]
+    solidos = [parede1,parede2, hud, janela]
 
 class world:
 
@@ -37,6 +43,24 @@ class world:
                     self.mapa_mundo[-1].append(worldItem.parede2)
                 elif self.tilemap.pget(x,y) == worldItem.portal:
                     self.mapa_mundo[-1].append(worldItem.portal)
+                elif self.tilemap.pget(x,y) ==worldItem.janela:
+                    self.mapa_mundo[-1].append(worldItem.janela)
+
+                elif self.tilemap.pget(x,y) == worldItem.chao2:
+                    self.mapa_mundo[-1].append(worldItem.chao2)
+
+                elif self.tilemap.pget(x,y) == worldItem.tapete0:
+                    self.mapa_mundo[-1].append(worldItem.tapete0)
+
+                elif self.tilemap.pget(x,y) == worldItem.tapete1:
+                    self.mapa_mundo[-1].append(worldItem.tapete1)
+
+                elif self.tilemap.pget(x,y) == worldItem.tapete2:
+                    self.mapa_mundo[-1].append(worldItem.tapete2)
+
+                elif self.tilemap.pget(x,y) == worldItem.tapete3:
+                    self.mapa_mundo[-1].append(worldItem.tapete3)
+
                 else:
                     self.mapa_mundo[-1].append(worldItem.chao)
 
