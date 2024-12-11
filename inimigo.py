@@ -11,6 +11,7 @@ class inimigo:
         self.tipo = 'i'
         self.x = random.randint(64,100)
         self.y = random.randint(64,100)
+        self.vivo = True
 
     def proximo_bloco(self, jogador_x, jogador_y):
         prox_x, prox_y = self.x, self.y  
@@ -47,6 +48,17 @@ class inimigo:
             return True
         else:
             return False
+
+    def calcular_matriz(self):
+        matriz = []
+        for i in range(8):
+            matriz.append([self.x + i, self.y + i])
+        
+        return matriz
+        #return [[self.x, self.y], [self.x + 8, self.y],
+        #    [self.x, self.y + 8],[self.x + 8, self.y + 8]]
+
+
 
     def resetar(self):
         if (self.x < 0) or (self.y < 0):

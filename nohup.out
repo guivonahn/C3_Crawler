@@ -1,0 +1,128 @@
+X connection to :0 broken (explicit kill or server shutdown).
+X connection to :0 broken (explicit kill or server shutdown).
+Failed to create /home for shader cache (Permission denied)---disabling.
+Failed to create /home for shader cache (Permission denied)---disabling.
+
+(anydesk:10395): Gtk-CRITICAL **: 17:41:44.186: gtk_widget_get_scale_factor: assertion 'GTK_IS_WIDGET (widget)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:41:44.348: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:41:45.917: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:41:47.402: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:41:48.342: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:41:49.052: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:21.918: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:21.919: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:21.919: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:21.922: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:23.419: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:23.422: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:23.423: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:26.644: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:26.644: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:27.907: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:27.909: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:27.915: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:27.915: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:27.916: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:27.916: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:27.916: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:27.916: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:27.927: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:27.927: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:30.388: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:30.388: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:30.389: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:40.034: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:40.038: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:40.038: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:40.047: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:40.047: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:40.047: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:40.201: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:40.204: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:49.595: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:54.449: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:54.449: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:54.449: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:54.449: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:54.449: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:54.449: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:54.474: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:54.512: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:54.514: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:54.519: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:54.520: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:54.520: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:54.520: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:54.520: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:54.520: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:58.242: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:58.262: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:58.262: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:43:58.296: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:44:36.280: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:45:41.134: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:45:44.784: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:45:50.132: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+
+(anydesk:10387): Gdk-CRITICAL **: 17:45:52.283: gdk_x11_window_get_xid: assertion 'GDK_IS_X11_WINDOW (window)' failed
+Gdk-Message: 17:46:20.345: Error reading events from display: Pipe quebrado
+Gdk-Message: 17:46:20.347: Error reading events from display: Pipe quebrado

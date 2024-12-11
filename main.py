@@ -32,13 +32,13 @@ class jogo:
 
 
         self.velocidade_movimento = 2
-        self.velocidade_ataque = 3 # MENOR = MAIS RAPIDO
+        self.velocidade_ataque = 4 # MENOR = MAIS RAPIDO
         self.velocidade_ataque_cont = 0
 
+        self.inimigos_ativos = []
         self.inimigo1 = inimigo.inimigo(3, 1)
         self.timer_ataque = 0
-        
-        self.posicoes_inimigos = [(self.inimigo1.x, self.inimigo1.y)]
+        self.inimigos_ativos.append(self.inimigo1)
 
         self.world = world(pyxel.tilemap(0))
         self.autores = ['G.V.A.A','F.C.M']
@@ -52,7 +52,7 @@ class jogo:
             if self.colisao(self.jogador_x,self.jogador_y,self.velocidade_movimento,self.lado_visao, self.jogador_tipo):
                 self.jogador_y -= self.velocidade_movimento
                 #self.arma.y = self.jogador_y
-                print(f"{self.lado_visao}, {(self.jogador_x,self.jogador_y)}")
+                #print(f"{self.lado_visao}, {(self.jogador_x,self.jogador_y)}")
 
         if pyxel.btn(pyxel.KEY_DOWN):
             self.jogador_sprite = self.jogador_sprites[0]
@@ -60,7 +60,7 @@ class jogo:
             if self.colisao(self.jogador_x,self.jogador_y,self.velocidade_movimento,self.lado_visao, self.jogador_tipo):
                 self.jogador_y += self.velocidade_movimento
                 #self.arma.y = self.jogador_y
-                print(f"{self.lado_visao}, {(self.jogador_x,self.jogador_y)}")
+                #print(f"{self.lado_visao}, {(self.jogador_x,self.jogador_y)}")
 
         if pyxel.btn(pyxel.KEY_LEFT):
             self.jogador_sprite = self.jogador_sprites[1]
@@ -68,7 +68,7 @@ class jogo:
             if self.colisao(self.jogador_x,self.jogador_y,self.velocidade_movimento,self.lado_visao, self.jogador_tipo):
                 self.jogador_x -= self.velocidade_movimento
                 #self.arma.x = self.jogador_x
-            3    #print(f"{self.lado_visao}, {(self.jogador_x,self.jogador_y)}")
+            3   #print(f"{self.lado_visao}, {(self.jogador_x,self.jogador_y)}")
       
         if pyxel.btn(pyxel.KEY_RIGHT):
             self.jogador_sprite = self.jogador_sprites[1]
@@ -76,7 +76,7 @@ class jogo:
             if self.colisao(self.jogador_x,self.jogador_y,self.velocidade_movimento,self.lado_visao, self.jogador_tipo):
                 self.jogador_x += self.velocidade_movimento
                 #self.arma.x = self.jogador_x
-                print(f"{self.lado_visao}, {(self.jogador_x,self.jogador_y)}")
+                #print(f"{self.lado_visao}, {(self.jogador_x,self.jogador_y)}")
         
         if pyxel.btn(pyxel.KEY_SPACE):
             self.velocidade_ataque_cont += 1
@@ -98,8 +98,21 @@ class jogo:
             pyxel.quit()
 
         for projetil in self.projeteis_ativos:
-            if projetil.cont == projetil.alcance:
-                self.projeteis_ativos.pop(projetil.id - 1) 
+            if projetil.cont > projetil.alcance:
+                self.projeteis_ativos.remove(projetil) 
+            for inimigo in self.inimigos_ativos:
+                pos_inimigo = inimigo.calcular_matriz()
+                for pos in pos_inimigo:
+                    if pos in (projetil.calcular_matriz()):
+                        if inimigo.vida != 0:
+                            inimigo.vida -= 1
+
+        for inimigo in self.inimigos_ativos:
+            if inimigo.vida == 0 and inimigo.vivo:
+                inimigo.vivo = False
+                self.inimigos_ativos.remove(inimigo)
+
+        print(len(self.inimigos_ativos))
 
         prox = self.inimigo1.proximo_bloco(self.jogador_x, self.jogador_y)
         if self.colisao(prox[0][0], prox[0][1], self.inimigo1.velocidade, self.inimigo1.lado, self.inimigo1.tipo):
@@ -168,9 +181,9 @@ class jogo:
         if tipo == 'p':
             posicoes = [
                 [x // tamanho_tile, y // tamanho_tile],
-                [(x + 6) // tamanho_tile, y // tamanho_tile],
-                [x // tamanho_tile, (y + 6) // tamanho_tile],
-                [(x + 6) // tamanho_tile, (y + 6) // tamanho_tile],
+                [(x + 5) // tamanho_tile, y // tamanho_tile],
+                [x // tamanho_tile, (y + 5) // tamanho_tile],
+                [(x + 5) // tamanho_tile, (y + 5) // tamanho_tile],
             ] #possui as 4 vertices do sprite
         else:
             posicoes = [
