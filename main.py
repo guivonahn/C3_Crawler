@@ -36,9 +36,12 @@ class jogo:
         self.velocidade_ataque_cont = 0
 
         self.inimigos_ativos = []
-        self.inimigo1 = inimigo.inimigo(3, 1)
+        self.n_inimigos_gerador = random.randint(1,6)
+        for _ in range(self.n_inimigos_gerador):
+            self.inimigos_ativos.append(inimigo.inimigo(5,1))
+        #self.inimigo1 = inimigo.inimigo(5, 1)
         self.timer_ataque = 0
-        self.inimigos_ativos.append(self.inimigo1)
+        #self.inimigos_ativos.append(self.inimigo1)
 
         self.world = world(pyxel.tilemap(0))
         self.autores = ['G.V.A.A','F.C.M']
@@ -92,39 +95,51 @@ class jogo:
         if pyxel.btnp(pyxel.KEY_K):
             self.jogador_vida += 1
             self.jogador_score += 1
-            self.inimigo1.resetar()
 
         if pyxel.btn(pyxel.KEY_Q):
             pyxel.quit()
 
         for projetil in self.projeteis_ativos:
             if projetil.cont > projetil.alcance:
-                self.projeteis_ativos.remove(projetil) 
+                self.projeteis_ativos.remove(projetil)
+
             for inimigo in self.inimigos_ativos:
                 pos_inimigo = inimigo.calcular_matriz()
-                for pos in pos_inimigo:
-                    if pos in (projetil.calcular_matriz()):
-                        if inimigo.vida != 0:
-                            inimigo.vida -= 1
+                pos_projetil = projetil.calcular_matriz()
+
+                if pos_inimigo & pos_projetil:
+                    if inimigo.vida > 0:
+                        inimigo.vida -= 1
 
         for inimigo in self.inimigos_ativos:
             if inimigo.vida == 0 and inimigo.vivo:
                 inimigo.vivo = False
                 self.inimigos_ativos.remove(inimigo)
+                self.jogador_score += 1
 
         print(len(self.inimigos_ativos))
+        
+        for inimigo in self.inimigos_ativos:
+            prox = inimigo.proximo_bloco(self.jogador_x, self.jogador_y, self.inimigos_ativos)
 
-        prox = self.inimigo1.proximo_bloco(self.jogador_x, self.jogador_y)
-        if self.colisao(prox[0][0], prox[0][1], self.inimigo1.velocidade, self.inimigo1.lado, self.inimigo1.tipo):
-            self.inimigo1.caçar(self.jogador_x, self.jogador_y)
+            if self.colisao(prox[0][0], prox[0][1], inimigo.velocidade, inimigo.lado, inimigo.tipo):
+                colisao = False
 
-            self.timer_ataque += 1
+                for outro_inimigo in self.inimigos_ativos:
+                    if outro_inimigo != inimigo and inimigo.colisao_inimigos(inimigo, outro_inimigo):
+                            colisao = True
 
-            if self.timer_ataque == self.inimigo1.velocidade_ataque:
-                if self.inimigo1.dar_dano(self.jogador_x, self.jogador_y) and self.jogador_vida > 0:
-                    self.jogador_vida -= 1
-                self.timer_ataque = 0
+                if not colisao:
+                    inimigo.caçar(self.jogador_x, self.jogador_y)
+                else:
+                    inimigo.evitar_colisao(self.inimigos_ativos, self.jogador_x, self.jogador_y)
 
+                self.timer_ataque += 1
+
+                if self.timer_ataque == inimigo.velocidade_ataque:
+                    if inimigo.dar_dano(self.jogador_x, self.jogador_y) and self.jogador_vida > 0:
+                        self.jogador_vida -= 1
+                    self.timer_ataque = 0
 
 
     def draw(self):
@@ -140,7 +155,8 @@ class jogo:
             projetil.update()
             pyxel.blt(projetil.proj_x, projetil.proj_y, 0, bit_sprite[0],bit_sprite[1],8,8,4)
 
-        pyxel.blt(self.inimigo1.x,self.inimigo1.y,0,24,8,8,8,4) # desenha inimigo
+        for inimigo in self.inimigos_ativos:
+            pyxel.blt(inimigo.x,inimigo.y,0,24,8,8,8,4) # desenha inimigo
 
         pyxel.blt(self.jogador_x,self.jogador_y,0,self.jogador_sprite[0],self.jogador_sprite[1],8,8,4) #desenha o jogador
 
@@ -200,6 +216,5 @@ class jogo:
             return True
         except Exception as e:
             print(e) 
-
 
 jogo()

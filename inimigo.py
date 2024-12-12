@@ -13,8 +13,8 @@ class inimigo:
         self.y = random.randint(64,100)
         self.vivo = True
 
-    def proximo_bloco(self, jogador_x, jogador_y):
-        prox_x, prox_y = self.x, self.y  
+    def proximo_bloco(self, jogador_x, jogador_y, inimigos_ativos):
+        prox_x, prox_y = self.x, self.y
 
         if jogador_x > self.x:
             prox_x += self.velocidade
@@ -25,7 +25,42 @@ class inimigo:
         if jogador_y < self.y:
             prox_y -= self.velocidade
 
+        for inimigo in inimigos_ativos:
+            if inimigo != self:
+                if self.colisao_inimigos(self, inimigo):
+                    prox_x, prox_y = self.evitar_colisao(inimigos_ativos, prox_x, prox_y)
+
         return [(prox_x, prox_y)]
+
+    def colisao_inimigos(self,inimigo1, inimigo2):
+        matriz1 = inimigo1.calcular_matriz()
+        matriz2 = inimigo2.calcular_matriz()
+
+        return bool(matriz1 & matriz2)
+
+    def evitar_colisao(self, inimigos, prox_x, prox_y):
+       for outro in inimigos:
+        if outro != self:
+            # Calculate distance to other enemy
+            dist_x = abs(outro.x - prox_x)
+            dist_y = abs(outro.y - prox_y)
+
+            # If the enemy is close enough to potentially collide
+            if dist_x < 8 and dist_y < 8:
+                # Move the enemy away from the other
+                if dist_x < dist_y:
+                    # Prioritize horizontal movement if closer
+                    if prox_x > outro.x:
+                        prox_x += self.velocidade / 2  # Move right
+                    else:
+                        prox_x -= self.velocidade / 2  # Move left
+                else:
+                    # Prioritize vertical movement if closer
+                    if prox_y > outro.y:
+                        prox_y += self.velocidade / 2  # Move down
+                    else:
+                        prox_y -= self.velocidade / 2  # Move up
+        return prox_x, prox_y
 
     def caçar(self, jogador_x, jogador_y):
         if jogador_x > self.x:
@@ -50,10 +85,11 @@ class inimigo:
             return False
 
     def calcular_matriz(self):
-        matriz = []
+        matriz = set()
         for i in range(8):
-            matriz.append([self.x + i, self.y + i])
-        
+            for j in range(8):
+                matriz.add((self.x + i, self.y + j))
+        #print(matriz) 
         return matriz
         #return [[self.x, self.y], [self.x + 8, self.y],
         #    [self.x, self.y + 8],[self.x + 8, self.y + 8]]

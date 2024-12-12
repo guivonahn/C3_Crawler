@@ -26,8 +26,12 @@ class projetil:
     
 
     def calcular_matriz(self):
-        return [[self.proj_x, self.proj_y], [self.proj_x + 8, self.proj_y],
-                [self.proj_x, self.proj_y + 6],[self.proj_x + 8, self.proj_y + 8]]
+        matriz = set()
+        for i in range(8):
+            for j in range(8):
+                matriz.add((self.x + i, self.y + j))
+        #print(matriz) 
+        return matriz
 
     
 
