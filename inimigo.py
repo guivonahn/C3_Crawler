@@ -1,7 +1,7 @@
 import pyxel, random, time
 
 class inimigo:
-    def __init__(self, vida, velocidade):
+    def __init__(self, vida, velocidade, x, y):
         
         self.vida = vida
         self.velocidade = velocidade
@@ -9,8 +9,8 @@ class inimigo:
         self.lado = 'r'
         self.count = 0
         self.tipo = 'i'
-        self.x = random.randint(64,100)
-        self.y = random.randint(64,100)
+        self.x = x
+        self.y = y
         self.vivo = True
 
     def proximo_bloco(self, jogador_x, jogador_y, inimigos_ativos):
@@ -41,25 +41,20 @@ class inimigo:
     def evitar_colisao(self, inimigos, prox_x, prox_y):
        for outro in inimigos:
         if outro != self:
-            # Calculate distance to other enemy
             dist_x = abs(outro.x - prox_x)
             dist_y = abs(outro.y - prox_y)
 
-            # If the enemy is close enough to potentially collide
             if dist_x < 8 and dist_y < 8:
-                # Move the enemy away from the other
                 if dist_x < dist_y:
-                    # Prioritize horizontal movement if closer
                     if prox_x > outro.x:
-                        prox_x += self.velocidade / 2  # Move right
+                        prox_x += self.velocidade / 2
                     else:
-                        prox_x -= self.velocidade / 2  # Move left
+                        prox_x -= self.velocidade / 2 
                 else:
-                    # Prioritize vertical movement if closer
                     if prox_y > outro.y:
-                        prox_y += self.velocidade / 2  # Move down
+                        prox_y += self.velocidade / 2
                     else:
-                        prox_y -= self.velocidade / 2  # Move up
+                        prox_y -= self.velocidade / 2
         return prox_x, prox_y
 
     def caçar(self, jogador_x, jogador_y):
@@ -76,8 +71,6 @@ class inimigo:
             self.y -= self.velocidade
             self.lado = 'd'
 
-        #time.sleep(1)
-
     def dar_dano(self, jogador_x, jogador_y):
         if (self.x, self.y) == (jogador_x, jogador_y):
             return True
@@ -89,10 +82,7 @@ class inimigo:
         for i in range(8):
             for j in range(8):
                 matriz.add((self.x + i, self.y + j))
-        #print(matriz) 
         return matriz
-        #return [[self.x, self.y], [self.x + 8, self.y],
-        #    [self.x, self.y + 8],[self.x + 8, self.y + 8]]
 
 
 

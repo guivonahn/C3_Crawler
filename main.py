@@ -11,14 +11,23 @@ tamanho_tile = 8
 banco_sprite = 0
 tamanho_hud = 16
 
+pos_2mapa = [(4,2), (5,2), (4,3), (5,3)]
+def find_random_zero(matrix, mundo): #FUNÇÃO PARA ACHAR UMA POSIÇÃO COM (0,0) andavel PARA SPAWNAR INIMIGO
+    if mundo == 0:
+        zero_positions = [[i, j] for i, row in enumerate(matrix) for j, val in enumerate(row) if (val == (6, 2))]
+    else:
+        zero_positions = [[i, j] for i, row in enumerate(matrix) for j, val in enumerate(row) if (val in pos_2mapa)]
+
+    return zero_positions
+
 class jogo:
     def __init__(self):
         pyxel.init(192,144, title='Dungeon do C3')
         pyxel.load('recursos.pyxres')
         pyxel.playm(0, loop=True)
 
-        self.jogador_x = 64
-        self.jogador_y = 64
+        self.jogador_x = 32
+        self.jogador_y = 32
         self.jogador_vida = 3
         self.jogador_score = 0
         self.jogador_tipo = 'p'
@@ -36,14 +45,22 @@ class jogo:
         self.velocidade_ataque_cont = 0
 
         self.inimigos_ativos = []
-        self.n_inimigos_gerador = random.randint(1,6)
-        for _ in range(self.n_inimigos_gerador):
-            self.inimigos_ativos.append(inimigo.inimigo(5,1))
-        #self.inimigo1 = inimigo.inimigo(5, 1)
+        
         self.timer_ataque = 0
-        #self.inimigos_ativos.append(self.inimigo1)
 
-        self.world = world(pyxel.tilemap(0))
+        self.mapa = 0
+        self.world = world(pyxel.tilemap(self.mapa))
+        self.pos_zero = find_random_zero(self.world.mapa_mundo, self.mapa)
+
+        for _ in range(random.randint(2, 8)):
+            try:
+                self.inimigo_pos = random.choice(self.pos_zero)
+                print(self.inimigo_pos)
+                self.inimigos_ativos.append(inimigo.inimigo(random.randint(3,5), 1, (self.inimigo_pos[0] * 8) + tamanho_hud, (self.inimigo_pos[1] * 8)))
+            except:
+                pass
+
+
         self.autores = ['G.V.A.A','F.C.M']
 
         pyxel.run(self.update, self.draw)
@@ -54,32 +71,24 @@ class jogo:
             self.lado_visao = 'u'
             if self.colisao(self.jogador_x,self.jogador_y,self.velocidade_movimento,self.lado_visao, self.jogador_tipo):
                 self.jogador_y -= self.velocidade_movimento
-                #self.arma.y = self.jogador_y
-                #print(f"{self.lado_visao}, {(self.jogador_x,self.jogador_y)}")
 
         if pyxel.btn(pyxel.KEY_DOWN):
             self.jogador_sprite = self.jogador_sprites[0]
             self.lado_visao = 'd'
             if self.colisao(self.jogador_x,self.jogador_y,self.velocidade_movimento,self.lado_visao, self.jogador_tipo):
                 self.jogador_y += self.velocidade_movimento
-                #self.arma.y = self.jogador_y
-                #print(f"{self.lado_visao}, {(self.jogador_x,self.jogador_y)}")
 
         if pyxel.btn(pyxel.KEY_LEFT):
             self.jogador_sprite = self.jogador_sprites[1]
             self.lado_visao = 'l'
             if self.colisao(self.jogador_x,self.jogador_y,self.velocidade_movimento,self.lado_visao, self.jogador_tipo):
                 self.jogador_x -= self.velocidade_movimento
-                #self.arma.x = self.jogador_x
-            3   #print(f"{self.lado_visao}, {(self.jogador_x,self.jogador_y)}")
-      
+        
         if pyxel.btn(pyxel.KEY_RIGHT):
             self.jogador_sprite = self.jogador_sprites[1]
             self.lado_visao = 'r'
             if self.colisao(self.jogador_x,self.jogador_y,self.velocidade_movimento,self.lado_visao, self.jogador_tipo):
                 self.jogador_x += self.velocidade_movimento
-                #self.arma.x = self.jogador_x
-                #print(f"{self.lado_visao}, {(self.jogador_x,self.jogador_y)}")
         
         if pyxel.btn(pyxel.KEY_SPACE):
             self.velocidade_ataque_cont += 1
@@ -97,6 +106,7 @@ class jogo:
             self.jogador_score += 1
 
         if pyxel.btn(pyxel.KEY_Q):
+            print(self.world.mapa_mundo)
             pyxel.quit()
 
         for projetil in self.projeteis_ativos:
@@ -110,12 +120,6 @@ class jogo:
                 if pos_inimigo & pos_projetil:
                     if inimigo.vida > 0:
                         inimigo.vida -= 1
-
-        for inimigo in self.inimigos_ativos:
-            if inimigo.vida == 0 and inimigo.vivo:
-                inimigo.vivo = False
-                self.inimigos_ativos.remove(inimigo)
-                self.jogador_score += 1
 
         print(len(self.inimigos_ativos))
         
@@ -177,7 +181,22 @@ class jogo:
         pyxel.rect(128,5, 61, 7, 7)
         pyxel.text(129, 6, f'{self.autores[1]} e {self.autores[0]}', random.randint(0,15))
 
-                    
+        for inimigo in self.inimigos_ativos:
+            if inimigo.vida == 0 and inimigo.vivo:
+                inimigo.vivo = False
+                self.inimigos_ativos.remove(inimigo)
+                self.jogador_score += 1
+
+                pyxel.blt(inimigo.x, inimigo.y, 0, 40, 8, 8, 8 , 3) 
+
+        if self.jogador_vida == 0:
+            self.game_over()           
+
+    def game_over(self):
+        pyxel.cls(8)
+        pyxel.text(50,50, "GAME OVER", 0)
+
+
     def colisao(self,pos_x,pos_y,velocidade,lado, tipo):
         if lado == 'u':
             x = pos_x
@@ -197,9 +216,9 @@ class jogo:
         if tipo == 'p':
             posicoes = [
                 [x // tamanho_tile, y // tamanho_tile],
-                [(x + 5) // tamanho_tile, y // tamanho_tile],
-                [x // tamanho_tile, (y + 5) // tamanho_tile],
-                [(x + 5) // tamanho_tile, (y + 5) // tamanho_tile],
+                [(x + 6) // tamanho_tile, y // tamanho_tile],
+                [x // tamanho_tile, (y + 6) // tamanho_tile],
+                [(x + 6) // tamanho_tile, (y + 6) // tamanho_tile],
             ] #possui as 4 vertices do sprite
         else:
             posicoes = [
@@ -211,6 +230,22 @@ class jogo:
 
         try:
             for posicao in posicoes:
+                if self.world.mapa_mundo[posicao[1]][posicao[0]] == (2,0):
+                    self.mapa = random.randint(0,1) 
+                    self.world = world(pyxel.tilemap(self.mapa))
+
+                    self.jogador_x = 32
+                    self.jogador_y = 32
+                    self.inimigos_ativos.clear()
+
+                    for _ in range(random.randint(2, 8)):
+                        try:
+                            self.pos_zero = find_random_zero(self.world.mapa_mundo, self.mapa)
+                            self.inimigo_pos = random.choice(self.pos_zero)
+                            self.inimigos_ativos.append(inimigo.inimigo(random.randint(3,5), 1, (self.inimigo_pos[0] * 8) + tamanho_hud, (self.inimigo_pos[1] * 8)))
+                        except:
+                            pass
+                    
                 if self.world.mapa_mundo[posicao[1]][posicao[0]] not in worldItem.andaveis:
                     return False
             return True
