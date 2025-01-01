@@ -279,6 +279,7 @@ class jogo:
                         self.mapa = 1
                     else:
                         self.world = world(pyxel.tilemap(0))
+                        self.mapa = 0
 
                     self.jogador_x = 32
                     self.jogador_y = 32
