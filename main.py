@@ -225,7 +225,8 @@ class jogo:
             self.frame_counter = 0
 
         if self.jogador_vida == 0:
-            self.game_over() 
+            self.game_over()
+            
 
         
     def game_over(self):
