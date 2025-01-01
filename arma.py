@@ -7,7 +7,7 @@ class projetil:
         self.ativo = True
         self.alcance = 10
         self.cont = 0
-        self.velocidade = 0.3
+        self.velocidade = 0.2
         self.proj_x, self.proj_y = self.x, self.y
 
     def update(self):
@@ -30,7 +30,6 @@ class projetil:
         for i in range(8):
             for j in range(8):
                 matriz.add((self.x + i, self.y + j))
-        #print(matriz) 
         return matriz
 
     

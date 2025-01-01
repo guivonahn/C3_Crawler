@@ -4,8 +4,9 @@ class inimigo:
     def __init__(self, vida, velocidade, x, y):
         
         self.vida = vida
+        self.modelo = random.randint(0,1)
         self.velocidade = velocidade
-        self.velocidade_ataque = 20
+        self.velocidade_ataque = 10
         self.lado = 'r'
         self.count = 0
         self.tipo = 'i'

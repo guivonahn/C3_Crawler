@@ -34,14 +34,17 @@ class jogo:
         self.lado_visao = 'r'
         #self.arma = arma.projetil(self.jogador_x, self.jogador_y, self.lado_visao)
         self.projeteis_ativos = []
+        self.best_score = 0
         
         self.bit_sprites = [[40,0], [48,0]]
         self.jogador_sprites = [[8,8], [0,16], [8,16]]
         self.jogador_sprite = self.jogador_sprites[0]
+        self.frame_counter = 0
+        self.timer_flecha = 0
 
 
         self.velocidade_movimento = 2
-        self.velocidade_ataque = 4 # MENOR = MAIS RAPIDO
+        self.velocidade_ataque = 5 # MENOR = MAIS RAPIDO
         self.velocidade_ataque_cont = 0
 
         self.inimigos_ativos = []
@@ -55,8 +58,8 @@ class jogo:
         for _ in range(random.randint(2, 8)):
             try:
                 self.inimigo_pos = random.choice(self.pos_zero)
-                print(self.inimigo_pos)
-                self.inimigos_ativos.append(inimigo.inimigo(random.randint(3,5), 1, (self.inimigo_pos[0] * 8) + tamanho_hud, (self.inimigo_pos[1] * 8)))
+                self.inimigos_ativos.append(inimigo.inimigo(random.randint(3,5), 1, (self.inimigo_pos[0] * 8), (self.inimigo_pos[1] * 8) + tamanho_hud))
+
             except:
                 pass
 
@@ -94,20 +97,24 @@ class jogo:
             self.velocidade_ataque_cont += 1
             if self.velocidade_ataque_cont == self.velocidade_ataque:
                 self.projeteis_ativos.append(arma.projetil(self.jogador_x, self.jogador_y, self.lado_visao, len(self.projeteis_ativos)))
-                print(len(self.projeteis_ativos))
                 self.velocidade_ataque_cont = 0
+                pyxel.play(3,3, loop=False)
 
         if pyxel.btnp(pyxel.KEY_J):
             self.jogador_vida -= 1 
             self.jogador_score -= 1
 
         if pyxel.btnp(pyxel.KEY_K):
-            self.jogador_vida += 1
-            self.jogador_score += 1
+            print(len(self.inimigos_ativos))
 
         if pyxel.btn(pyxel.KEY_Q):
             print(self.world.mapa_mundo)
             pyxel.quit()
+        
+        if pyxel.btn(pyxel.KEY_R):
+            if self.jogador_vida == 0:
+                self.jogador_vida = 3
+                self.jogador_score = 0            
 
         for projetil in self.projeteis_ativos:
             if projetil.cont > projetil.alcance:
@@ -121,8 +128,6 @@ class jogo:
                     if inimigo.vida > 0:
                         inimigo.vida -= 1
 
-        print(len(self.inimigos_ativos))
-        
         for inimigo in self.inimigos_ativos:
             prox = inimigo.proximo_bloco(self.jogador_x, self.jogador_y, self.inimigos_ativos)
 
@@ -145,6 +150,8 @@ class jogo:
                         self.jogador_vida -= 1
                     self.timer_ataque = 0
 
+                self.colisao(self.jogador_x,self.jogador_y,self.velocidade_movimento,self.lado_visao, self.jogador_tipo)
+
 
     def draw(self):
         pyxel.cls(1) # cor do fundo
@@ -160,7 +167,22 @@ class jogo:
             pyxel.blt(projetil.proj_x, projetil.proj_y, 0, bit_sprite[0],bit_sprite[1],8,8,4)
 
         for inimigo in self.inimigos_ativos:
-            pyxel.blt(inimigo.x,inimigo.y,0,24,8,8,8,4) # desenha inimigo
+            if inimigo.modelo == 0:
+                if inimigo.lado == 'u':
+                    pyxel.blt(inimigo.x,inimigo.y,0,24,8,8,8,4) # desenha inimigo
+                elif inimigo.lado == 'd':
+                    pyxel.blt(inimigo.x,inimigo.y,0,56,8,8,8,4)
+                elif inimigo.lado == 'l' or inimigo.lado == 'r':
+                    pyxel.blt(inimigo.x, inimigo.y, 0, 56,0,8,8,4)
+
+            if inimigo.modelo == 1:
+                if inimigo.lado == 'u':
+                    pyxel.blt(inimigo.x,inimigo.y,0,56,16,8,8,4) # desenha inimigo
+                elif inimigo.lado == 'd':
+                    pyxel.blt(inimigo.x,inimigo.y,0,64,16,8,8,4)
+                elif inimigo.lado == 'l' or inimigo.lado == 'r':
+                    pyxel.blt(inimigo.x, inimigo.y, 0, 56,24,8,8,4)
+
 
         pyxel.blt(self.jogador_x,self.jogador_y,0,self.jogador_sprite[0],self.jogador_sprite[1],8,8,4) #desenha o jogador
 
@@ -181,20 +203,40 @@ class jogo:
         pyxel.rect(128,5, 61, 7, 7)
         pyxel.text(129, 6, f'{self.autores[1]} e {self.autores[0]}', random.randint(0,15))
 
+
+        self.frame_counter += 1
         for inimigo in self.inimigos_ativos:
             if inimigo.vida == 0 and inimigo.vivo:
                 inimigo.vivo = False
                 self.inimigos_ativos.remove(inimigo)
                 self.jogador_score += 1
+                
+                pyxel.play(2, 4, loop=False)
+                pyxel.blt(inimigo.x, inimigo.y, 0, 40, 8, 8, 8 , 3)
 
-                pyxel.blt(inimigo.x, inimigo.y, 0, 40, 8, 8, 8 , 3) 
+        if self.timer_flecha == 6:
+            self.timer_flecha = 0
+
+        pyxel.blt(self.jogador_x, (self.jogador_y - 12) + self.timer_flecha, 0, 8,32,8,8, 0)
+       
+
+        if self.frame_counter == 30:
+            self.timer_flecha += 1
+            self.frame_counter = 0
 
         if self.jogador_vida == 0:
-            self.game_over()           
+            self.game_over() 
 
+        
     def game_over(self):
+
+        if self.jogador_score > self.best_score:
+            self.best_score = self.jogador_score
+
         pyxel.cls(8)
-        pyxel.text(50,50, "GAME OVER", 0)
+        pyxel.text(66,42, "GAME OVER", 0)
+        pyxel.text(66,62, "Aperte R para recomeçar",0)
+        pyxel.text(66,82, f"Melhor Score de {self.best_score}", 0 )
 
 
     def colisao(self,pos_x,pos_y,velocidade,lado, tipo):
@@ -231,8 +273,11 @@ class jogo:
         try:
             for posicao in posicoes:
                 if self.world.mapa_mundo[posicao[1]][posicao[0]] == (2,0):
-                    self.mapa = random.randint(0,1) 
-                    self.world = world(pyxel.tilemap(self.mapa))
+                    if self.mapa == 0:
+                        self.world = world(pyxel.tilemap(1))
+                        self.mapa = 1
+                    else:
+                        self.world = world(pyxel.tilemap(0))
 
                     self.jogador_x = 32
                     self.jogador_y = 32
@@ -240,9 +285,8 @@ class jogo:
 
                     for _ in range(random.randint(2, 8)):
                         try:
-                            self.pos_zero = find_random_zero(self.world.mapa_mundo, self.mapa)
                             self.inimigo_pos = random.choice(self.pos_zero)
-                            self.inimigos_ativos.append(inimigo.inimigo(random.randint(3,5), 1, (self.inimigo_pos[0] * 8) + tamanho_hud, (self.inimigo_pos[1] * 8)))
+                            self.inimigos_ativos.append(inimigo.inimigo(random.randint(3,5), 1, (self.inimigo_pos[0] * 8), (self.inimigo_pos[1] * 8) + tamanho_hud))
                         except:
                             pass
                     
@@ -250,6 +294,6 @@ class jogo:
                     return False
             return True
         except Exception as e:
-            print(e) 
+            return False
 
 jogo()
