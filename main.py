@@ -37,6 +37,7 @@ class jogo:
         self.best_score = 0
         
         self.bit_sprites = [[40,0], [48,0]]
+        self.cinzas_inimigo = []
         self.jogador_sprites = [[8,8], [0,16], [8,16]]
         self.jogador_sprite = self.jogador_sprites[0]
         self.frame_counter = 0
@@ -55,7 +56,7 @@ class jogo:
         self.world = world(pyxel.tilemap(self.mapa))
         self.pos_zero = find_random_zero(self.world.mapa_mundo, self.mapa)
 
-        for _ in range(random.randint(2, 8)):
+        for _ in range(random.randint(4, 12)):
             try:
                 self.inimigo_pos = random.choice(self.pos_zero)
                 self.inimigos_ativos.append(inimigo.inimigo(random.randint(3,5), 1, (self.inimigo_pos[0] * 8), (self.inimigo_pos[1] * 8) + tamanho_hud))
@@ -183,6 +184,11 @@ class jogo:
                 elif inimigo.lado == 'l' or inimigo.lado == 'r':
                     pyxel.blt(inimigo.x, inimigo.y, 0, 56,24,8,8,4)
 
+        try:
+            for cinza in self.cinzas_inimigo:
+                pyxel.blt(cinza[0], cinza[1], 0, 0, 32, 8,8,0)
+        except:
+            pass
 
         pyxel.blt(self.jogador_x,self.jogador_y,0,self.jogador_sprite[0],self.jogador_sprite[1],8,8,4) #desenha o jogador
 
@@ -210,12 +216,16 @@ class jogo:
                 inimigo.vivo = False
                 self.inimigos_ativos.remove(inimigo)
                 self.jogador_score += 1
+
+                self.cinzas_inimigo.append([inimigo.x, inimigo.y])
                 
                 pyxel.play(2, 4, loop=False)
                 pyxel.blt(inimigo.x, inimigo.y, 0, 40, 8, 8, 8 , 3)
 
         if self.timer_flecha == 6:
             self.timer_flecha = 0
+
+        
 
         pyxel.blt(self.jogador_x, (self.jogador_y - 12) + self.timer_flecha, 0, 8,32,8,8, 0)
        
@@ -284,8 +294,9 @@ class jogo:
                     self.jogador_x = 32
                     self.jogador_y = 32
                     self.inimigos_ativos.clear()
+                    self.cinzas_inimigo.clear()
 
-                    for _ in range(random.randint(2, 8)):
+                    for _ in range(random.randint(4, 12)):
                         try:
                             self.inimigo_pos = random.choice(self.pos_zero)
                             self.inimigos_ativos.append(inimigo.inimigo(random.randint(3,5), 1, (self.inimigo_pos[0] * 8), (self.inimigo_pos[1] * 8) + tamanho_hud))
