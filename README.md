@@ -6,4 +6,4 @@ https://youtu.be/Y97bVljPqhA
 
 # Apresentação código
 
-https://youtube.com/watch?v=zsxI6UUJ9Ak
+https://youtu.be/zsxI6UUJ9Ak
